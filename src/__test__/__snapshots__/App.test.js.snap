@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestApp input 1`] = `
+<input
+  class="searchText"
+  name="search"
+  placeholder="Поиск пользователя"
+  type="text"
+  value=""
+/>
+`;
+
+exports[`TestApp renders learn react link 1`] = `
+<input
+  class="searchText"
+  name="search"
+  placeholder="Поиск пользователя"
+  type="text"
+  value=""
+/>
+`;

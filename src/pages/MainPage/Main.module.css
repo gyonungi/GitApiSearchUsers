@@ -1,0 +1,208 @@
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*:before,
+*:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+  color: #000000;
+}
+
+.mainH2 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 42px;
+  color: #000000;
+  margin-bottom: 30px;
+  text-align: center;
+  margin-top: 30px;
+}
+
+.mainSearch {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 11px 0;
+  max-width: 1178px;
+  margin: 0 auto;
+  padding: 31px 10px 0px;
+}
+
+.searchForm {
+  margin-left: 60px;
+  max-width: 1044px;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-bottom: 40px;
+}
+
+.searchText {
+  width: 100%;
+  height: 50px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  background-color: transparent;
+  padding: 13px 19px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #000000;
+}
+
+.searchText::-webkit-input-placeholder {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.3);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.searchText:-ms-input-placeholder {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.3);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.searchText::-ms-input-placeholder {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.3);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.searchText::placeholder {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.3);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+.searchBtn {
+  margin-left: 10px;
+  width: 158px;
+  height: 50px;
+  background-color: #000000;
+  border: 1px solid #009ee4;
+  border-radius: 6px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+}
+.DivSort{
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 31px;
+  padding-right: 500px;
+}
+.DivSort p{
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  color: #000000;
+}
+.Asc{
+  margin-left: 10px;
+  width: 55px;
+  height: 25px;
+  background-color: #3AA1FF;
+  border: 1px solid #3AA1FF;
+  border-radius: 6px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+}
+.Desc{
+  margin-left: 10px;
+  width: 55px;
+  height: 25px;
+  background-color: #3AA1FF;
+  border: 1px solid #3AA1FF;
+  border-radius: 6px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #ffffff;
+}
+.DivCards {
+  width: 100%;
+  min-height: 100%;
+}
+
+.CardItem{
+  text-align: center;
+}
+.Card{
+  width: 25%;
+  height: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+.navigationButtons {
+  width: 80%;
+  height: 40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+ 
+.navigationButtons a {
+  padding: 10px;
+  margin: 8px;
+  border-radius: 10px;
+  background-color: #71DDFF;
+  border: 1px solid ;
+  color: white;
+  cursor: pointer;
+}
+ 
+.navigationButtons a:hover {
+  color: white;
+  border: 1px solid #009ee4;
+}
+ 
+.navigationActive a {
+  color: white;
+  border: 1px solid #009ee4;
+}
+ 
+.navigationDisabled a {
+  color: #2DCDFF;
+  background-color: #2DCDFF;
+}
