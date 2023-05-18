@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, NavLink } from "react-router-dom";
 import s from "./Main.module.css";
 import Card from "../../components/Card/Card";
 import ReactPaginate from "react-paginate";
