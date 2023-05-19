@@ -22,14 +22,7 @@ const Main = () => {
   useEffect(() => {
     getUsers();
   }, []);
-  const objectToArray = (data) => {
-    return Object.keys(data).map((key) => {
-      return {
-        id: key,
-        ...data,
-      };
-    });
-  };
+
   /*   function searchGit(e) {
     e.preventDefault();
     dispatch(getUsers(inputValue));
@@ -40,34 +33,32 @@ const Main = () => {
     setInputValue(inputValue);
     getUsers(inputValue);
   };
-  let gitUser = objectToArray(users);
-  console.log(gitUser?.[2]?.items);
+/*   console.log(gitUser?.[2]?.items); */
+  console.log(users?.items);
 
   //SORT
-  const [sortuser, setSortUser] = useState(null);
+  const [sortUser, setSortUser] = useState(null);
   function numAscending() {
-    const SortUser = gitUser?.[2]?.items;
-    SortUser?.sort((a, b) => a?.repos_url?.length - b?.repos_url?.length);
-  return  setSortUser(gitUser);
+    users?.items?.sort((a, b) => a?.repos_url?.length - b?.repos_url?.length);
+  return  setSortUser(sortUser + users?.items);
   }
-  const [sortusers, setSortUsers] = useState(null);
-  function numDescending() {
-    gitUser?.[2]?.items?.sort(
+  const [sortUsers, setSortUsers] = useState(null);
+  function numDescending() {  
+    users?.items?.sort(
       (a, b) => b?.repos_url?.length - a?.repos_url?.length
     );
-    return  setSortUsers(gitUser);
+    return  setSortUsers(sortUsers + users?.items);
   }
 
   //PAGINATINO
   const [page, setPage] = useState(0);
   const usersPerPage = 5;
   const numberOfusersVistited = page * usersPerPage;
-  const displayusers = gitUser?.[2]?.items
-    ?.slice(numberOfusersVistited, numberOfusersVistited + usersPerPage)  
+  const displayusers = users?.items?.slice(numberOfusersVistited, numberOfusersVistited + usersPerPage)  
     .map((item) => {
       return <Card key={item.id} date={item} />;
     });
-  const totalPages = Math.ceil(gitUser?.[2]?.items?.length / usersPerPage);
+  const totalPages = Math.ceil(users?.items?.length / usersPerPage);
   const changePage = ({ selected }) => {
     setPage(selected);
   };
