@@ -4,16 +4,13 @@ import Card from "../../components/Card/Card";
 import ReactPaginate from "react-paginate";
 const Main = () => {
   const [inputValue, setInputValue] = useState("");
-  const [isSorted, setisSorted] = useState(false);
   const [users, setUsers] = useState([]);
+  const [sortUser, setSortUser] = useState(null);
 
-  const handleClick = () => {
-    setisSorted((current) => !current);
-  };
   /*   const dispatch = useDispatch(); */
   const getUsers = async (value) => {
     const response = await fetch(
-      `https://api.github.com/search/users?q=${value}`,
+      `https://api.github.com/search/users?q=${value}&per_page=100`,
       {headers: {'Content-Type': 'application/json'}, method: "GET"}
   );
     const users = await response.json();
@@ -37,17 +34,15 @@ const Main = () => {
   console.log(users?.items);
 
   //SORT
-  const [sortUser, setSortUser] = useState(null);
   function numAscending() {
     users?.items?.sort((a, b) => a?.repos_url?.length - b?.repos_url?.length);
   return  setSortUser(sortUser + users?.items);
   }
-  const [sortUsers, setSortUsers] = useState(null);
   function numDescending() {  
     users?.items?.sort(
       (a, b) => b?.repos_url?.length - a?.repos_url?.length
     );
-    return  setSortUsers(sortUsers + users?.items);
+    return  setSortUser(sortUser + users?.items);
   }
 
   //PAGINATINO
