@@ -3,14 +3,19 @@ import s from "./Main.module.css";
 import Card from "../../components/Card/Card";
 import ReactPaginate from "react-paginate";
 const Main = () => {
+  const  [currentPage,setCurrentPage] = useState(1)
+  const todosPerPage = 30;
   const [inputValue, setInputValue] = useState("");
+  const [isSorted, setisSorted] = useState(false);
   const [users, setUsers] = useState([]);
-  const [sortUser, setSortUser] = useState(null);
 
+  const handleClick = () => {
+    setisSorted((current) => !current);
+  };
   /*   const dispatch = useDispatch(); */
   const getUsers = async (value) => {
     const response = await fetch(
-      `https://api.github.com/search/users?q=${value}&per_page=100`,
+      `https://api.github.com/search/users?q=${value}&page=${todosPerPage}`,
       {headers: {'Content-Type': 'application/json'}, method: "GET"}
   );
     const users = await response.json();
@@ -34,29 +39,48 @@ const Main = () => {
   console.log(users?.items);
 
   //SORT
+  const [sortUser, setSortUser] = useState(null);
   function numAscending() {
     users?.items?.sort((a, b) => a?.repos_url?.length - b?.repos_url?.length);
   return  setSortUser(sortUser + users?.items);
   }
+  const [sortUsers, setSortUsers] = useState(null);
   function numDescending() {  
     users?.items?.sort(
       (a, b) => b?.repos_url?.length - a?.repos_url?.length
     );
-    return  setSortUser(sortUser + users?.items);
+    return  setSortUsers(sortUsers + users?.items);
   }
 
   //PAGINATINO
-  const [page, setPage] = useState(0);
-  const usersPerPage = 5;
-  const numberOfusersVistited = page * usersPerPage;
-  const displayusers = users?.items?.slice(numberOfusersVistited, numberOfusersVistited + usersPerPage)  
-    .map((item) => {
+ const click = (e) =>{
+  setCurrentPage(Number(e.target.id))
+ }
+ const indexOfLastTodo = currentPage * todosPerPage;
+ const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const displayusers = users?.items?.slice(indexOfFirstTodo, indexOfLastTodo)?.map((item) => {
       return <Card key={item.id} date={item} />;
     });
-  const totalPages = Math.ceil(users?.items?.length / usersPerPage);
-  const changePage = ({ selected }) => {
-    setPage(selected);
-  };
+    const renderTodos = displayusers?.map((todo, index) => {
+      return <li key={index}>{todo}</li>;
+    });
+
+    // Logic for displaying page numbers
+    const pageNumbers = [];
+    for (let i = 1; i <= Math.ceil(users?.items?.length / todosPerPage); i++) {
+      pageNumbers.push(i);
+    }
+    const renderPageNumbers = pageNumbers?.map(number => {
+      return (
+        <li
+          key={number}
+          id={number}
+          onClick={(e)=>click(e)}
+        >
+          {number}
+        </li>
+      );
+    });
   return (
     <>
       <h2 className={s.mainH2}>GitHub Search 🔍</h2>
@@ -77,6 +101,9 @@ const Main = () => {
           />
         </form>
       </div>
+      <ul id={s.pagenumbers}>
+          {renderPageNumbers} 
+        </ul>
       <div className={s.DivSort}> 
        <p>Сортировка:</p> 
        <div>
@@ -85,18 +112,7 @@ const Main = () => {
       </div>
       </div>
       <div className={s.DivCards}>
-        {users ? (displayusers): (<p>Не найден пользователь</p>) }
-        <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          pageCount={totalPages}
-          onPageChange={changePage}
-          containerClassName={s.navigationButtons}
-          previousLinkClassName={s.previousButton}
-          nextLinkClassName={s.nextButton}
-          disabledClassName={s.navigationDisabled}
-          activeClassName={s.navigationActive}
-        />
+        {users ? (renderTodos): (<p>Не найден пользователь</p>) }
       </div>
     </>
   );
