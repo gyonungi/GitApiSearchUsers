@@ -3,8 +3,8 @@ import s from "./Main.module.css";
 import Card from "../../components/Card/Card";
 import ReactPaginate from "react-paginate";
 const Main = () => {
-  const  [currentPage,setCurrentPage] = useState(1)
-  const todosPerPage = 30;
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 5;
   const [inputValue, setInputValue] = useState("");
   const [isSorted, setisSorted] = useState(false);
   const [users, setUsers] = useState([]);
@@ -16,8 +16,8 @@ const Main = () => {
   const getUsers = async (value) => {
     const response = await fetch(
       `https://api.github.com/search/users?q=${value}&page=${todosPerPage}`,
-      {headers: {'Content-Type': 'application/json'}, method: "GET"}
-  );
+      { headers: { "Content-Type": "application/json" }, method: "GET" }
+    );
     const users = await response.json();
     setUsers(users);
   };
@@ -35,52 +35,48 @@ const Main = () => {
     setInputValue(inputValue);
     getUsers(inputValue);
   };
-/*   console.log(gitUser?.[2]?.items); */
+  /*   console.log(gitUser?.[2]?.items); */
   console.log(users?.items);
 
   //SORT
   const [sortUser, setSortUser] = useState(null);
-  function numAscending() {
+  function numDescending() {
     users?.items?.sort((a, b) => a?.repos_url?.length - b?.repos_url?.length);
-  return  setSortUser(sortUser + users?.items);
+    return setSortUser(sortUser + users);
   }
   const [sortUsers, setSortUsers] = useState(null);
-  function numDescending() {  
-    users?.items?.sort(
-      (a, b) => b?.repos_url?.length - a?.repos_url?.length
-    );
-    return  setSortUsers(sortUsers + users?.items);
+  function numAscending() {
+    users?.items?.sort((a, b) => b?.repos_url?.length - a?.repos_url?.length);
+    return setSortUsers(sortUsers + users);
   }
 
   //PAGINATINO
- const click = (e) =>{
-  setCurrentPage(Number(e.target.id))
- }
- const indexOfLastTodo = currentPage * todosPerPage;
- const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-  const displayusers = users?.items?.slice(indexOfFirstTodo, indexOfLastTodo)?.map((item) => {
+  const click = (e) => {
+    setCurrentPage(Number(e.target.id));
+  };
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const displayusers = users?.items
+    ?.slice(indexOfFirstTodo, indexOfLastTodo)
+    ?.map((item) => {
       return <Card key={item.id} date={item} />;
     });
-    const renderTodos = displayusers?.map((todo, index) => {
-      return <li key={index}>{todo}</li>;
-    });
+  const renderTodos = displayusers?.map((todo, index) => {
+    return <li key={index}>{todo}</li>;
+  });
 
-    // Logic for displaying page numbers
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(users?.items?.length / todosPerPage); i++) {
-      pageNumbers.push(i);
-    }
-    const renderPageNumbers = pageNumbers?.map(number => {
-      return (
-        <li
-          key={number}
-          id={number}
-          onClick={(e)=>click(e)}
-        >
-          {number}
-        </li>
-      );
-    });
+  // Logic for displaying page numbers
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(users?.items?.length / todosPerPage); i++) {
+    pageNumbers.push(i);
+  }
+  const renderPageNumbers = pageNumbers?.map((number) => {
+    return (
+      <li key={number} id={number} onClick={(e) => click(e)}>
+        {number}
+      </li>
+    );
+  });
   return (
     <>
       <h2 className={s.mainH2}>GitHub Search 🔍</h2>
@@ -91,7 +87,7 @@ const Main = () => {
           action="#"
         >
           <input
-          data-testid="value-elem"
+            data-testid="value-elem"
             className={s.searchText}
             placeholder="Поиск пользователя"
             name="search"
@@ -101,18 +97,28 @@ const Main = () => {
           />
         </form>
       </div>
-      <ul id={s.pagenumbers}>
-          {renderPageNumbers} 
-        </ul>
-      <div className={s.DivSort}> 
-       <p>Сортировка:</p> 
-       <div>
-      <button data-testid="Asc-btn" className={s.Asc} onClick={numAscending}>Вниз</button>
-      <button data-testid="Desc-btn" className={s.Desc}onClick={numDescending}>Вверх</button>
-      </div>
+      <ul id={s.pagenumbers}>{renderPageNumbers}</ul>
+      <div className={s.DivSort}>
+        <p>Сортировка:</p>
+        <div>
+          <button
+            data-testid="Asc-btn"
+            className={s.Asc}
+            onClick={numAscending}
+          >
+            Вниз
+          </button>
+          <button
+            data-testid="Desc-btn"
+            className={s.Desc}
+            onClick={numDescending}
+          >
+            Вверх
+          </button>
+        </div>
       </div>
       <div className={s.DivCards}>
-        {users ? (renderTodos): (<p>Не найден пользователь</p>) }
+        {users ? renderTodos : <p>Не найден пользователь</p>}
       </div>
     </>
   );
