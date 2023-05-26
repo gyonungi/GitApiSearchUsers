@@ -206,3 +206,16 @@ body {
   color: #2DCDFF;
   background-color: #2DCDFF;
 }
+
+.pagenumbers {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagenumbers > li {
+  margin-right: 0.3em;
+  color: blue;
+  user-select: none;
+  cursor: pointer;
+}
