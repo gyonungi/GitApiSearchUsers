@@ -4,12 +4,11 @@ import Card from "../../components/Card/Card";
 const Main = () => {
   const [inputValue, setInputValue] = useState("");
   const [users, setUsers] = useState([]);
-  
-  const getUsers = async (value,number,numDescending) => {
+
+  const getUsers = async (value, number, a) => {
     const response = await fetch(
       `https://api.github.com/search/users?q=${value}&sort=repositories&order=asc&page=${number}`,
-      { headers: { "Content-Type": "application/json" },
-       method: "GET" }
+      { headers: { "Content-Type": "application/json" }, method: "GET" }
     );
 
     const users = await response.json();
@@ -34,34 +33,23 @@ const Main = () => {
   const [sortUsers, setSortUsers] = useState(null);
   function numAscending() {
     users?.items?.sort((a, b) => b?.repos_url?.length - a?.repos_url?.length);
-      getUsers(sortUser + users)
     return setSortUsers(sortUsers + users);
-  
   }
-
   //PAGINATINO
- const [currentPage,setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
   const todosPerPage = 30;
   const indexOfLastTodo = currentPage * todosPerPage;
   const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-  const displayusers = users?.items
-    ?.slice(indexOfFirstTodo, indexOfLastTodo)
-    ?.map((item) => {
-      return <Card key={item.id} date={item} /> 
-    });
-  const renderTodos = displayusers?.map((todo, index) => {
-    return <li key={index}>{todo}</li>;
-    
-  });
-  const [clickPage,setClickPage] = useState(Number)
+  const displayusers = users?.items?.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  const [clickPage, setClickPage] = useState(Number);
   const clickPagin = (e) => {
     let clickPage = e.target.id;
     setCurrentPage(clickPage);
-    setClickPage(clickPage)
-    getUsers(clickPage)
+    setClickPage(clickPage);
+    getUsers(clickPage);
   };
-    const [ascUser,setAscUser] = useState("")
-    
+
   // Logic for displaying page numbers
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(users?.total_count / todosPerPage); i++) {
@@ -69,19 +57,16 @@ const Main = () => {
   }
   const renderPageNumbers = pageNumbers?.map((number) => {
     return (
-      <li key={number}  id={number} onClick={(e) => clickPagin(e)}>
+      <li key={number} id={number} onClick={(e) => clickPagin(e)}>
         {number}
       </li>
     );
-  });  
+  });
   return (
     <>
       <h2 className={s.mainH2}>GitHub Search 🔍</h2>
       <div className={s.mainSearch}>
-        <form
-          className={s.searchForm}
-          action="#"
-        >
+        <form className={s.searchForm} action="#">
           <input
             data-testid="value-elem"
             className={s.searchText}
@@ -93,7 +78,7 @@ const Main = () => {
           />
         </form>
       </div>
-       <ul className={s.pagenumbers}>{renderPageNumbers}</ul>  
+      <ul className={s.pagenumbers}>{renderPageNumbers}</ul>
       <div className={s.DivSort}>
         <p>Сортировка:</p>
         <div>
@@ -114,7 +99,11 @@ const Main = () => {
         </div>
       </div>
       <div className={s.DivCards}>
-        {users ? (renderTodos): (<p>Не найден пользователь</p>) }
+        {users?.items?.length ? (
+          users?.items?.map((item) => <Card key={item.id} date={item} />)
+        ) : (
+          <p>Ничего не найдено</p>
+        )}
       </div>
     </>
   );
